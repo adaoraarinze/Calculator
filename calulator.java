@@ -44,7 +44,7 @@ public class calulator {
 
             }
         }
-        if (amount == userInput.length && !isLast(userInput)) {
+        if (amount == userInput.length && !isLast(userInput) && evenBrackets(userInput)) {
             return true;
         } else {
             return false;
@@ -76,10 +76,26 @@ public class calulator {
     // Function is to determine if the last character of the userInput String[] is
     // an operator; if it is, it is an invalid entry
     public static boolean isLast(String[] equation) {
-        if (isOperator(equation[equation.length - 1])) {
+        if (equation[equation.length - 1].equals(")") || equation[equation.length - 1].equals("(")) {
+            return false;
+        } else if (isOperator(equation[equation.length - 1])) {
             return true;
         }
         return false;
     }
 
+    // Function to determine if equation is valid by having an even amount of
+    // brackets
+    public static boolean evenBrackets(String[] bracket) {
+        double bracketAmount = 0;
+        for (int i = 0; i < bracket.length; i++) {
+            if (bracket[i].equals(")") || bracket[i].equals("(")) {
+                bracketAmount++;
+            }
+        }
+        if (bracketAmount % 2 == 0) {
+            return true;
+        }
+        return false;
+    }
 }
