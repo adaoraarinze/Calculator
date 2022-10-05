@@ -1,5 +1,7 @@
 package Calculator;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class calulator {
@@ -22,12 +24,14 @@ public class calulator {
             }
             if (validArgument(seperateEquation)) {
                 System.out.println("Yay! This is a valid entry");
+                System.out.println("Your answer is:\n" + equationInput + " = " + solveEquation(seperateEquation));
             } else {
                 System.out.println("Whoopsies! What you entered is an invalid entry. Try again!");
             }
         }
     }
 
+    /* START ERROR HANDLING */
     // Function to determine if what the user entered is a valid input or not
     public static boolean validArgument(String[] userInput) {
         int amount = 0;
@@ -76,7 +80,7 @@ public class calulator {
     // Function is to determine if the last character of the userInput String[] is
     // an operator; if it is, it is an invalid entry
     public static boolean isLast(String[] equation) {
-        if (equation[equation.length - 1].equals(")") || equation[equation.length - 1].equals("(")) {
+        if (equation[equation.length - 1].equals(")")) {
             return false;
         } else if (isOperator(equation[equation.length - 1])) {
             return true;
@@ -98,4 +102,73 @@ public class calulator {
         }
         return false;
     }
+
+    /* END ERROR HANDLING */
+
+    /* START EQUATING */
+    public static double solveEquation(String[] userInput) {
+        double finalAnswer = 0;
+        for (int i = 0; i < userInput.length; i++) {
+            if (isOperator(userInput[i])) {
+                double prev = getPrevNumber(userInput, i);
+                double next = getNextNumber(userInput, i);
+                if (userInput[i].equals("+")) {
+                    finalAnswer = addition(prev, next);
+                } else if (userInput[i].equals("-")) {
+                    finalAnswer = subtraction(prev, next);
+                } else if (userInput[i].equals("*")) {
+                    finalAnswer = multiplication(prev, next);
+                } else if (userInput[i].equals("/")) {
+                    finalAnswer = division(prev, next);
+                }
+            }
+
+        }
+        return finalAnswer;
+    }
+
+    public static double getPrevNumber(String[] userInput, int index) {
+        String number = "", fullNumber = "";
+        char ch;
+        for (int i = index - 1; i >= 0 && !isOperator(userInput[i]); i--) {
+            number = number + userInput[i];
+        }
+        for (int j = 0; j < number.length(); j++) {
+            ch = number.charAt(j);
+            fullNumber = ch + fullNumber;
+        }
+        return Double.parseDouble(fullNumber);
+    }
+
+    public static double getNextNumber(String[] userInput, int index) {
+        String number = "";
+        for (int i = index + 1; i <= userInput.length - 1 && !isOperator(userInput[i]); i++) {
+            number = number + userInput[i];
+        }
+        return Double.parseDouble(number);
+    }
+
+    public static double addition(double numberOne, double numberTwo) {
+        double finalAnswer = numberOne + numberTwo;
+        return finalAnswer;
+    }
+
+    public static double subtraction(double numberOne, double numberTwo) {
+        double finalAnswer = 0;
+        finalAnswer = numberOne - numberTwo;
+        return finalAnswer;
+    }
+
+    public static double multiplication(double numberOne, double numberTwo) {
+        double finalAnswer = 0;
+        finalAnswer = numberOne * numberTwo;
+        return finalAnswer;
+    }
+
+    public static double division(double numberOne, double numberTwo) {
+        double finalAnswer = 0;
+        finalAnswer = numberOne / numberTwo;
+        return finalAnswer;
+    }
+    /* END EQUATING */
 }
