@@ -1,11 +1,14 @@
-package Calculator;
+package Java;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
-public class calulator {
+public class Calulator {
     public static void main(String[] args) {
+        SolveEquation solveEq = new SolveEquation();
         Scanner scan = new Scanner(System.in);
         String[] seperateEquation;
         System.out.println(
@@ -24,7 +27,7 @@ public class calulator {
             }
             if (validArgument(seperateEquation)) {
                 System.out.println("Yay! This is a valid entry");
-                System.out.println("Your answer is:\n" + equationInput + " = " + solveEquation(seperateEquation));
+                System.out.println("Your answer is:\n" + equationInput + " = " + solveEq.solve(equationInput) + "\n");
             } else {
                 System.out.println("Whoopsies! What you entered is an invalid entry. Try again!");
             }
@@ -129,9 +132,14 @@ public class calulator {
 
     public static double getPrevNumber(String[] userInput, int index) {
         String number = "", fullNumber = "";
+        ArrayList<Integer> onesToDelete = new ArrayList<Integer>();
+        List<String> list = new ArrayList<String>(Arrays.asList(userInput));
+        list.add(index, "");
         char ch;
+        onesToDelete.add(index);
         for (int i = index - 1; i >= 0 && !isOperator(userInput[i]); i--) {
             number = number + userInput[i];
+            list.add(i, "");
         }
         for (int j = 0; j < number.length(); j++) {
             ch = number.charAt(j);
