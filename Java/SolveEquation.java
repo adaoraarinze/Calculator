@@ -3,15 +3,6 @@ package Java;
 import java.util.*;
 
 public class SolveEquation {
-    // public static void main(String[] args) {
-    // System.out.println(solve("2+2"));
-    // System.out.println(solve("6*2"));
-    // System.out.println(solve("12435+34569-12345*10+50")); // -76396
-    // System.out.println(solve("20+100*10*50")); //50020
-    // System.out.println(solve("2*2*2*2")); //16
-    // System.out.println(solve("1+2+3+4+5")); // 15
-    // System.out.println(solve("20+5-40+50-90*10")); // -865
-    // }
 
     public static String solve(String equation) {
         ArrayList<String> ansArray = new ArrayList<>();

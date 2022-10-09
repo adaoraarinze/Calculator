@@ -38,6 +38,7 @@ public class Calulator {
     // Function to determine if what the user entered is a valid input or not
     public static boolean validArgument(String[] userInput) {
         int amount = 0;
+        boolean doubleOperator = false;
         for (int i = 0; i < userInput.length; i++) {
             if (isDigit(userInput[i]) || isOperator(userInput[i])) {
                 amount++;
@@ -51,7 +52,13 @@ public class Calulator {
 
             }
         }
-        if (amount == userInput.length && !isLast(userInput) && evenBrackets(userInput)) {
+        // Checks for any double operator conditions and changes boolean outcome
+        for (int i = 0; i < userInput.length - 1; i++) {
+            if (isOperator(userInput[i]) && isOperator(userInput[i + 1])) {
+                doubleOperator = true;
+            }
+        }
+        if (amount == userInput.length && !isLast(userInput) && evenBrackets(userInput) && !doubleOperator) {
             return true;
         } else {
             return false;
@@ -107,76 +114,4 @@ public class Calulator {
     }
 
     /* END ERROR HANDLING */
-
-    /* START EQUATING */
-    public static double solveEquation(String[] userInput) {
-        double finalAnswer = 0;
-        for (int i = 0; i < userInput.length; i++) {
-            if (isOperator(userInput[i])) {
-                double prev = getPrevNumber(userInput, i);
-                double next = getNextNumber(userInput, i);
-                if (userInput[i].equals("+")) {
-                    finalAnswer = addition(prev, next);
-                } else if (userInput[i].equals("-")) {
-                    finalAnswer = subtraction(prev, next);
-                } else if (userInput[i].equals("*")) {
-                    finalAnswer = multiplication(prev, next);
-                } else if (userInput[i].equals("/")) {
-                    finalAnswer = division(prev, next);
-                }
-            }
-
-        }
-        return finalAnswer;
-    }
-
-    public static double getPrevNumber(String[] userInput, int index) {
-        String number = "", fullNumber = "";
-        ArrayList<Integer> onesToDelete = new ArrayList<Integer>();
-        List<String> list = new ArrayList<String>(Arrays.asList(userInput));
-        list.add(index, "");
-        char ch;
-        onesToDelete.add(index);
-        for (int i = index - 1; i >= 0 && !isOperator(userInput[i]); i--) {
-            number = number + userInput[i];
-            list.add(i, "");
-        }
-        for (int j = 0; j < number.length(); j++) {
-            ch = number.charAt(j);
-            fullNumber = ch + fullNumber;
-        }
-        return Double.parseDouble(fullNumber);
-    }
-
-    public static double getNextNumber(String[] userInput, int index) {
-        String number = "";
-        for (int i = index + 1; i <= userInput.length - 1 && !isOperator(userInput[i]); i++) {
-            number = number + userInput[i];
-        }
-        return Double.parseDouble(number);
-    }
-
-    public static double addition(double numberOne, double numberTwo) {
-        double finalAnswer = numberOne + numberTwo;
-        return finalAnswer;
-    }
-
-    public static double subtraction(double numberOne, double numberTwo) {
-        double finalAnswer = 0;
-        finalAnswer = numberOne - numberTwo;
-        return finalAnswer;
-    }
-
-    public static double multiplication(double numberOne, double numberTwo) {
-        double finalAnswer = 0;
-        finalAnswer = numberOne * numberTwo;
-        return finalAnswer;
-    }
-
-    public static double division(double numberOne, double numberTwo) {
-        double finalAnswer = 0;
-        finalAnswer = numberOne / numberTwo;
-        return finalAnswer;
-    }
-    /* END EQUATING */
 }
